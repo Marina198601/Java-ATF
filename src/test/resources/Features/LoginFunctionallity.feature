@@ -6,6 +6,9 @@ Feature: Login functionallity
     When user clicks on Login button
     Then user is redirect to homepage
     And user clicks on logOut button
+    And insert username
+    And insert password
+
 
 
   Scenario: Invalid login functionallity

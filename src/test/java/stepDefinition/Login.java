@@ -9,7 +9,11 @@ import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 
 import static Actions.Action.*;
+import static Util.DataKeys.PASSWORD;
+import static Util.DataKeys.USERNAME;
 import static Util.HightLightElement.hightLightElement;
+import static Util.ScenarioContext.getData;
+import static Util.ScenarioContext.saveData;
 import static Util.WaitUntil.waitUntil;
 
 public class Login extends AbstractStepDef {
@@ -18,6 +22,7 @@ public class Login extends AbstractStepDef {
         navigate(loginPageUrl, driver);
         waitUntil(3);
         sendKey(loginPage.getUsernameField(), "Admin");
+        saveData(USERNAME, "Admin");
     }
 
     @And("user insert password")
@@ -27,6 +32,7 @@ public class Login extends AbstractStepDef {
 //        click(loginPage.getFbLink(),3);
 //        Thread.sleep(3000);
 //        sendKey(loginPage.getFbmail(),"marinapuing@gmail.com");
+        saveData(PASSWORD, "admin123");
     }
 
     @When("user clicks on Login button")
@@ -36,7 +42,7 @@ public class Login extends AbstractStepDef {
 
     @Then("user is redirect to homepage")
     public void userIsRedirectToHomepage() {
-        waitUntil(1);
+        waitUntil(3);
         hightLightElement(homePage.getDashboardSign());
         Assert.assertEquals("Dashboard", homePage.getDashboardSign().getText());
     }
@@ -48,4 +54,18 @@ public class Login extends AbstractStepDef {
         waitUntil(5);
         click(homePage.getLogOutButton(), 1);
     }
+
+    @And("insert username")
+    public void insertUsername() {
+        waitUntil(3);
+        sendKey(loginPage.getUsernameField(), getData(USERNAME).toString());
+    }
+
+    @And("insert password")
+    public void insertPassword() {
+        sendKey(loginPage.getPasswordField(), getData(PASSWORD).toString());
+        isDisplayed(loginPage.getLoginLogo());
+//
+    }
 }
+
